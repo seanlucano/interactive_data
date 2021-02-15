@@ -1,0 +1,122 @@
+/* FONT FAMILIES */
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+nav,
+main,
+footer {
+  font-family: "Open Sans", sans-serif;
+}
+
+#logo {
+  font-family: "Playfair Display", serif;
+}
+
+/* ADD BORDERS TO EVERYTHING FOR DEBUGGING */
+* {
+  /* border: 1px solid grey;  */
+}
+
+/* ALOWS CONTENT TO COVER FULL WIDTH OF BROWSER */
+body {
+  margin: 0;
+  min-width: 100vw;
+}
+
+/* HEADER */
+
+#logo {
+  color: white;
+  margin: 5px 15px 5px 35px;
+  padding: 0px 15px 0px 15px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 100vw;
+  background: linear-gradient(
+    90deg,
+    #c442f1 0%,
+    rgba(107, 118, 244, 0.83) 99.37%
+  );
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  color: white;
+  margin: 0px 10px 0px 10px;
+  padding: 5px;
+}
+
+nav div {
+  padding: 5px;
+  margin: 5px;
+}
+
+#logo h1 {
+  margin: 0;
+  padding: 5px;
+}
+
+/* MAIN */
+
+ul {
+  list-style-type: none;
+  padding-inline-start: 15px;
+}
+
+li {
+  padding: 5px;
+}
+
+.active {
+  color: #5f1c75;
+  font-weight: bold;
+}
+
+main {
+  display: flex;
+  justify-content: space-between;
+}
+
+#courseNav {
+  padding: 0px 25px 0px 25px;
+  min-width: 165px;
+  background-color: lightgrey;
+}
+
+#interactive {
+  min-width: 600px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+#explainer {
+  border-left: solid grey 1px;
+  padding: 30px;
+}
+
+button {
+  background: #5c42ee;
+  border-radius: 5px;
+  border: 1px solid #5c42ee;
+  color: #ffffff;
+  padding: 5px 20px;
+  margin-top: 10px;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  height: 200px;
+  background: linear-gradient(90deg, #501863 0%, #2f3569 99.37%);
+}
+
+footer p {
+  color: white;
+  margin: auto;
+}
