@@ -50,6 +50,8 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/MsftW
       .y(d => d.MsftReturn);
     const regressionLine = regression(data); //pass the data into the new function 
 
+    console.log(regressionLine);
+
     // append regression line
     svg.append("line")
       .attr("x1", x(regressionLine[0][0]))
