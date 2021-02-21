@@ -48,9 +48,7 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/MsftW
     const regression = d3.regressionLinear() // create a function generator
       .x(d => d.WmtReturn)   // set the x and y accessors (what columns to find data)
       .y(d => d.MsftReturn);
-    const regressionLine = regression(data); //pass the data into the new function 
-
-    console.log(regressionLine);
+    let regressionLine = regression(data); //pass the data into the new function 
 
     // append regression line
     svg.append("line")
@@ -87,11 +85,13 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/MsftW
       data.push(newData);   //add new point coords to data
       renderCircles();      //render circles with updated data   
       regressionUpdate();   //update all regression logic
+      renderRisiduals();
     });
 
     // render circles to plot
     function renderCircles() {
-    
+      renderRisiduals(); //reder residuals first so they are behind the circles
+      
       const circles = points.selectAll("circle")
         .data(data);
 
@@ -112,14 +112,29 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/MsftW
           data.splice(i,1);
           renderCircles();
           regressionUpdate();
+          renderRisiduals();
         });          
           
+    }
+
+    //update residuals
+    function renderRisiduals() {
+      const residuals = points.selectAll("line")
+        .data(data)
+        .join("line")
+        .attr("x1", d => x(d.WmtReturn))
+        .attr("y1", d => y(d.MsftReturn))
+        .attr("x2", d => x(d.WmtReturn))
+        .attr("y2", d => y(regressionLine.predict(d.WmtReturn)))
+        .attr("stroke-width", .5)
+        .attr("stroke", "grey")
+        .attr("id", "residual");
     }
 
     // update regression data
     function regressionUpdate() {
   
-        let regressionLine = regression(data); //calculate new regression line data
+        regressionLine = regression(data); //calculate new regression line data
 
         d3.select("#regressionLine") //update the regression line with new data
           .attr("x1", x(regressionLine[0][0]))
