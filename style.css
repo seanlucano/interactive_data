@@ -120,3 +120,7 @@ footer p {
   color: white;
   margin: auto;
 }
+
+.hidden {
+  visibility: hidden;
+}

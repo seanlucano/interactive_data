@@ -65,6 +65,14 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/MsftW
     d3.select("#R")
       .html(`R = ${Math.sqrt(regressionLine.rSquared).toFixed(3)}`);
 
+
+    //select residual checkbox and add event lister for change calling the updateResiduals function
+    const residualsToggle = document.querySelector('#residualsToggle');
+    residualsToggle.addEventListener('change', (event) => {
+      //console.log(residualsToggle.checked);
+      updateResiduals();
+    });
+
     // create 'points' group element
     const points = svg.append('g')
         .attr("id", "points");
@@ -85,12 +93,14 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/MsftW
       data.push(newData);   //add new point coords to data
       renderCircles();      //render circles with updated data   
       regressionUpdate();   //update all regression logic
-      renderRisiduals();
+      updateResiduals();
     });
+
+    
 
     // render circles to plot
     function renderCircles() {
-      renderRisiduals(); //reder residuals first so they are behind the circles
+      updateResiduals(); //reder residuals first so they are behind the circles
       
       const circles = points.selectAll("circle")
         .data(data);
@@ -100,8 +110,9 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/MsftW
           .attr("cx", function (d) { return x(d.WmtReturn); })
           .attr("cy", function (d) { return y(d.MsftReturn); })
           //.attr("id", function (d,i) {return i;})
-          .attr("r", 5)
-          .style("fill", "#5c42ee");
+          .attr("r", 4)
+          .style("fill", "#5c42ee")
+          .style('fill-opacity', '95%');
 
       // remove points on click
       currentCircles = d3.selectAll("circle")
@@ -112,13 +123,13 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/MsftW
           data.splice(i,1);
           renderCircles();
           regressionUpdate();
-          renderRisiduals();
+          updateResiduals();
         });          
           
     }
 
     //update residuals
-    function renderRisiduals() {
+    function updateResiduals() {
       const residuals = points.selectAll("line")
         .data(data)
         .join("line")
@@ -126,9 +137,17 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/MsftW
         .attr("y1", d => y(d.MsftReturn))
         .attr("x2", d => x(d.WmtReturn))
         .attr("y2", d => y(regressionLine.predict(d.WmtReturn)))
-        .attr("stroke-width", .5)
         .attr("stroke", "grey")
-        .attr("id", "residual");
+        .attr("class", "residual");
+
+        // Check the residuals toggle to render hidden or visible
+        if (!residualsToggle.checked) {
+          points.selectAll('line')
+            .classed('hidden', true);
+        } else if (residualsToggle.checked) {
+          points.selectAll('line')
+          .classed('hidden', false);
+        }
     }
 
     // update regression data
@@ -137,6 +156,8 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/MsftW
         regressionLine = regression(data); //calculate new regression line data
 
         d3.select("#regressionLine") //update the regression line with new data
+          .transition()
+          .duration(500)
           .attr("x1", x(regressionLine[0][0]))
           .attr("y1", y(regressionLine[0][1]))
           .attr("x2", x(regressionLine[1][0]))
