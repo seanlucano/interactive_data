@@ -3,14 +3,14 @@ const margin = { top: 30, right: 30, bottom: 30, left: 30 },
   width = 600 - margin.left - margin.right,
   height = 400 - margin.top - margin.bottom;
 
-// apend the g to HTML SVG '#plot" 
+// apply dimensions to svg '#plot" and add a group element
 const svg = d3.select("#plot")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-//add a target on plot to accept click event
+//add a target on plot to accept click events
 const target = svg.append('rect')
     .attr("fill", "none")
     .style("pointer-events", "all")
@@ -18,6 +18,7 @@ const target = svg.append('rect')
     .attr('height', height)
     .attr("id", "target");
 
+// load the dataset - beginning of main callback
 d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/MsftWlmrt.csv").then(data => {
     //parse string data to numeric
     data.forEach(d => {
@@ -133,13 +134,14 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/MsftW
       const residuals = points.selectAll("line")
         .data(data)
         .join("line")
-        .attr("x1", d => x(d.WmtReturn))
-        .attr("y1", d => y(d.MsftReturn))
-        .attr("x2", d => x(d.WmtReturn))
-        .attr("y2", d => y(regressionLine.predict(d.WmtReturn)))
-        .attr("stroke", "grey")
-        .attr("class", "residual");
-
+          .attr("x1", d => x(d.WmtReturn))
+          .attr("y1", d => y(d.MsftReturn))
+          .attr("x2", d => x(d.WmtReturn))
+          .attr("y2", d => y(regressionLine.predict(d.WmtReturn)))
+          .attr("stroke", "grey")
+          .attr("class", "residual")
+          ;
+        
         // Check the residuals toggle to render hidden or visible
         if (!residualsToggle.checked) {
           points.selectAll('line')
@@ -148,6 +150,7 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/MsftW
           points.selectAll('line')
           .classed('hidden', false);
         }
+        
     }
 
     // update regression data
