@@ -19,14 +19,14 @@ const target = svg.append('rect')
     .attr("id", "target");
 
 // load the dataset - beginning of main callback
-d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/MsftWlmrt.csv").then(data => {
+d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.csv").then(data => {
     //parse string data to numeric
     data.forEach(d => {
-        d.MsftReturn = +d.MsftReturn;
-        d.WmtReturn = +d.WmtReturn;
+        d.yValue = +d.yValue;
+        d.xValue = +d.xValue;
     });
   
-  // x scale
+    // x scale
     let x = d3.scaleLinear()
       .domain([-10, 15])
       .range([0, width]);
@@ -45,10 +45,10 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/MsftW
     svg.append("g")
       .call(d3.axisLeft(y));
   
-  //caclulate regression data 
+    //caclulate regression data 
     const regression = d3.regressionLinear() // create a function generator
-      .x(d => d.WmtReturn)   // set the x and y accessors (what columns to find data)
-      .y(d => d.MsftReturn);
+      .x(d => d.xValue)   // set the x and y accessors (what columns to find data)
+      .y(d => d.yValue);
     let regressionLine = regression(data); //pass the data into the new function 
 
     // append regression line
@@ -66,98 +66,143 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/MsftW
     d3.select("#R")
       .html(`R = ${Math.sqrt(regressionLine.rSquared).toFixed(3)}`);
 
+    // create residuals group 
+    const residualsGroup = svg.append('g')
+        .attr("id", "residualsGroup");
 
-    //select residual checkbox and add event lister for change calling the updateResiduals function
+    // create points group 
+    const pointsGroup = svg.append('g')
+        .attr("id", "pointsGroup");
+
+    //select residual checkbox in DOM and add event lister for any change, which will re-render the residuals 
     const residualsToggle = document.querySelector('#residualsToggle');
     residualsToggle.addEventListener('change', (event) => {
-      //console.log(residualsToggle.checked);
-      updateResiduals();
+    updateResiduals();
     });
 
-    // create 'points' group element
-    const points = svg.append('g')
-        .attr("id", "points");
-    //render circles in 'points' group element
-    renderCircles();
-
-    // add points on click 
+    // add event lister to "target" element to add new plot points on click
     target.on("click", function (event) {
       let coordsStart = d3.pointer(event, svg.node());
       let cx = coordsStart[0];
       let cy = coordsStart[1];
       
       let newData = {               //store click coords
-        WmtReturn: x.invert(cx),
-        MsftReturn: y.invert(cy)
+        xValue: x.invert(cx),
+        yValue: y.invert(cy),
+        key: Math.random()
       }
       
       data.push(newData);   //add new point coords to data
-      renderCircles();      //render circles with updated data   
-      regressionUpdate();   //update all regression logic
-      updateResiduals();
+      console.log(newData);
+      updatePlot();
     });
-
+    
+    //initial render of all data elements
+    updatePlot();
     
 
+    //***FUNCTIONS***
+
+    //updates the entire plot
+    function updatePlot() {
+      updateRegression();
+      updateResiduals();
+      updateCircles();
+      //console.log(data);
+    }
+    
     // render circles to plot
-    function renderCircles() {
-      updateResiduals(); //reder residuals first so they are behind the circles
+    function updateCircles() {
       
-      const circles = points.selectAll("circle")
-        .data(data);
-
-      circles   
-        .join("circle")
-          .attr("cx", function (d) { return x(d.WmtReturn); })
-          .attr("cy", function (d) { return y(d.MsftReturn); })
-          //.attr("id", function (d,i) {return i;})
-          .attr("r", 4)
-          .style("fill", "#5c42ee")
-          .style('fill-opacity', '95%');
-
-      // remove points on click
-      currentCircles = d3.selectAll("circle")
+      const points = pointsGroup.selectAll("circle")
+        .data(data, d => d.key);
+        
+      points   
+        .join(
+          enter => enter.append("circle")
+              .attr("cx", d => x(d.xValue))
+              .attr("cy", d => y(d.yValue))
+              //.attr("id", function (d,i) {return i;})
+              .attr("r", 1)
+              .style("fill", "#5c42ee")
+              .style('fill-opacity', '95%')
+            .call(enter => enter
+              .transition()
+              .duration(500)
+                .attr("r", 4)
+            ),
+          update => update
+            // .call(update => update
+            //   .transition()
+            //   .duration(500)
+              .attr("cx", d => x(d.xValue))
+              .attr("cy", d => y(d.yValue))
+            // )
+            ,
+          exit => exit
+            .call(exit => exit
+              .transition()
+              .duration(500)
+                .attr("r",0)
+              .remove()
+            )
+        );
+        
+      // add click event listerner to all points, remove data points on click and update all data
+      currentPoints = d3.selectAll("circle")
         .on("click", function removePoint(event, d) {
-          const e = currentCircles.nodes();
+          const e = currentPoints.nodes();
           const i = e.indexOf(this);
           console.log(i);
           data.splice(i,1);
-          renderCircles();
-          regressionUpdate();
-          updateResiduals();
+          updatePlot();
         });          
           
     }
 
     //update residuals
     function updateResiduals() {
-      const residuals = points.selectAll("line")
-        .data(data)
-        .join("line")
-          .attr("x1", d => x(d.WmtReturn))
-          .attr("y1", d => y(d.MsftReturn))
-          .attr("x2", d => x(d.WmtReturn))
-          .attr("y2", d => y(regressionLine.predict(d.WmtReturn)))
-          .attr("stroke", "grey")
-          .attr("class", "residual")
-          ;
-        
+      const residuals = residualsGroup.selectAll("line")
+        .data(data, d => d.key)
+        .join(
+          enter => enter.append("line")
+              .attr("x1", d => x(d.xValue))
+              .attr("y1", d => y(d.yValue))
+              .attr("x2", d => x(d.xValue))
+              .attr("y2", d => y(d.yValue))
+              .attr("stroke", "grey")
+              .attr("class", "residual")
+            .call(enter => enter.transition().duration(500))
+              .attr("y2", d => y(regressionLine.predict(d.xValue)))
+            ,
+          
+          update => update
+              // .attr("x1", d => x(d.xValue))
+              // .attr("y1", d => y(d.yValue))
+              // .attr("x2", d => x(d.xValue))
+            .call(update => update.transition().duration(500)
+                .attr("y2", d => y(regressionLine.predict(d.xValue)))
+            ),
+          
+          exit => exit
+            .remove()
+        );
+
         // Check the residuals toggle to render hidden or visible
         if (!residualsToggle.checked) {
-          points.selectAll('line')
-            .classed('hidden', true);
+          residuals
+          .classed('hidden', true);
         } else if (residualsToggle.checked) {
-          points.selectAll('line')
+          residuals
           .classed('hidden', false);
-        }
-        
+    }
     }
 
     // update regression data
-    function regressionUpdate() {
-  
-        regressionLine = regression(data); //calculate new regression line data
+    function updateRegression() {
 
+        regressionLine = regression(data); //calculate new regression line data
+        console.log(regressionLine)
         d3.select("#regressionLine") //update the regression line with new data
           .transition()
           .duration(500)
@@ -165,7 +210,7 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/MsftW
           .attr("y1", y(regressionLine[0][1]))
           .attr("x2", x(regressionLine[1][0]))
           .attr("y2", y(regressionLine[1][1]));
-
+        
         d3.select("#R") // update R value text node
         .html(`R = ${Math.sqrt(regressionLine.rSquared).toFixed(3)}`);
       }
