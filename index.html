@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width">
     <title>Interactive Regression</title>
     <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
   </head>
   <body>
   
@@ -17,12 +19,9 @@
         <div>Courses</div>
         <div>{UserName}</div>
         <div>
-          <img
-            alt="user profile thumbnail"
-            width="50"
-            height="50"
-            src=""
-          />
+          <span class="material-icons-outlined">
+              account_circle
+          </span>
         </div>
       </nav>
   </header>  
@@ -44,7 +43,7 @@
       <p>Add and remove data points to the plot by clicking, then see how R changes.</p>
       <h4> Microsoft vs Walmart Monthy Returns</h4>
       <div id="R"> R = -</div>
-      <input type="checkbox" id="residualsToggle" name="residuals">
+      <input type="checkbox" id="residualsToggle" name="residuals" checked>
       <label for="residualsToggle">Residuals</label>
       <div>
         <svg id="plot"> </svg>

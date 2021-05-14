@@ -172,14 +172,11 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
               .attr("y2", d => y(d.yValue))
               .attr("stroke", "grey")
               .attr("class", "residual")
-            .call(enter => enter.transition().duration(500))
+              .call(enter => enter.transition().duration(500)
               .attr("y2", d => y(regressionLine.predict(d.xValue)))
-            ,
+          ),
           
           update => update
-              // .attr("x1", d => x(d.xValue))
-              // .attr("y1", d => y(d.yValue))
-              // .attr("x2", d => x(d.xValue))
             .call(update => update.transition().duration(500)
                 .attr("y2", d => y(regressionLine.predict(d.xValue)))
             ),
