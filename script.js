@@ -93,7 +93,7 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
       }
       
       data.push(newData);   //add new point coords to data
-      console.log(newData);
+      //console.log(newData);
       updatePlot();
     });
     
@@ -149,13 +149,12 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
         );
         
       // add click event listerner to all points, remove data points on click and update all data
-      currentPoints = d3.selectAll("circle")
+      const currentPoints = d3.selectAll("circle")
         .on("click", function removePoint(event, d) {
-          const e = currentPoints.nodes();
-          const i = e.indexOf(this);
-          console.log(i);
+          const i = data.indexOf(d);
           data.splice(i,1);
           updatePlot();
+          
         });          
           
     }
@@ -199,7 +198,7 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
     function updateRegression() {
 
         regressionLine = regression(data); //calculate new regression line data
-        console.log(regressionLine)
+        //console.log(regressionLine)
         d3.select("#regressionLine") //update the regression line with new data
           .transition()
           .duration(500)
