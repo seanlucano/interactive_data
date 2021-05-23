@@ -170,6 +170,7 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
               .attr("x2", d => x(d.xValue))
               .attr("y2", d => y(d.yValue))
               .attr("stroke", "grey")
+              .attr("stroke-dasharray","2,2")
               .attr("class", "residual")
               .call(enter => enter.transition().duration(500)
               .attr("y2", d => y(regressionLine.predict(d.xValue)))
