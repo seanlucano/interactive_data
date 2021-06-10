@@ -19,6 +19,24 @@ const target = svg.append('rect')
     .attr("id", "target");
 
 // load the dataset - beginning of main callback
+async function getData(url) {
+  
+  const data = await d3.csv(url)
+    //.then(data => {
+    //      data.yValue = +data.yValue;
+    //      data.xValue = +data.xValue;
+    //  });
+
+  return data;
+}
+
+const url = "https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.csv";
+
+getData(url).then(d => {
+  return d
+});
+
+
 d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.csv").then(data => {
     //parse string data to numeric
     data.forEach(d => {
