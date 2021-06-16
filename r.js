@@ -1,7 +1,7 @@
 // set dimentions and margins of the plot 
 const margin = { top: 30, right: 30, bottom: 30, left: 30 },
   width = 600 - margin.left - margin.right,
-  height = 400 - margin.top - margin.bottom;
+  height = 500 - margin.top - margin.bottom;
 
 // apply dimensions to svg '#plot" and add a group element
 const svg = d3.select("#plot")
@@ -19,22 +19,22 @@ const target = svg.append('rect')
     .attr("id", "target");
 
 // load the dataset - beginning of main callback
-async function getData(url) {
+// async function getData(url) {
   
-  const data = await d3.csv(url)
-    //.then(data => {
-    //      data.yValue = +data.yValue;
-    //      data.xValue = +data.xValue;
-    //  });
+//   const data = await d3.csv(url)
+//     //.then(data => {
+//     //      data.yValue = +data.yValue;
+//     //      data.xValue = +data.xValue;
+//     //  });
 
-  return data;
-}
+//   return data;
+// }
 
-const url = "https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.csv";
+// const url = "https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.csv";
 
-getData(url).then(d => {
-  return d
-});
+// getData(url).then(d => {
+//   return d
+// });
 
 
 d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.csv").then(data => {
