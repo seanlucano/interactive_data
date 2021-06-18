@@ -29,11 +29,11 @@
   <main>
 
     <section id="courseNav"> 
-      <h4>Statistical Modeling</h4>
+      <h4>Linear Regression</h4>
       <ul> 
-        <li class="active">Best Fit Lines</li>
+        <li class="active"><a href="best-fit.html">Best Fit Lines</a></li>
         <li><a href="r.html">Playing with R</a></li>
-        <li>Changing scales</li>
+        <li class="inactive">Changing scales</li>
       </ul>
     </section>
 
@@ -43,28 +43,35 @@
       <p>Draw a line through the data that models the relationship between the x and y variables.</p>
       <p>Then, click to reveal the actual best fit line</p>
       
-      <div>
-        <label>
-          <input type="checkbox" id="bestFitToggle"></input>
-        Best Fit Line  
-        </label>
-        <label>
-          <input type="checkbox" id="residualsToggle"></input>
-        Residuals
-        </label>
-      </div>
-      <br>
-      <div>
-        <label>
-          <input type="checkbox" id="userLineToggle"></input>
-        Your Line 
-        </label>
-        <label>
-          <input type="checkbox" id="userLineResidualsToggle"></input>
-        Residuals
-        </label>
-      </div>
-
+      <section id="controls">
+        <section id="bestFit">
+          <label>
+            <input type="checkbox" id="bestFitToggle"></input>
+          Best Fit Line  
+          </label>
+          <label>
+            <input type="checkbox" id="residualsToggle" disabled></input>
+          Residuals
+          </label>
+          <p id="bestFitLineEquation">
+            Y = <strong id="bestFitLineM">Slope</strong> X + <strong id="bestFitLineB">Y-intercept</strong>
+          </p>
+        </section>
+        
+        <section id="user">
+          <label>
+            <input type="checkbox" id="userLineToggle" checked></input>
+          Your Line 
+          </label>
+          <label>
+            <input type="checkbox" id="userLineResidualsToggle"></input>
+          Residuals
+          </label>
+          <p id="userLineEquation">
+            Y = <strong id="userLineM">Slope</strong> X + <strong id="userLineB">Y-intercept</strong>
+          </p>
+        </section>
+      </section>
       
       <!-- Change to toggle -->
       <div>
