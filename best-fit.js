@@ -130,10 +130,10 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
       return this.b;
     },
     
-    predict: function(xVal) {
-      let yVal = (this.m * xVal) - this.b;
-      return yVal;
-    }
+    // predict: function(xVal) {
+    //   let yVal = (this.m * xVal) - this.b;
+    //   return yVal;
+    // }
   };
 
 
@@ -284,27 +284,19 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
   function renderUserLineResiduals() {
     const residuals = userLineResidualsGroup.selectAll("line")
       .data(data, d => d.key)
-      .join(
-        enter => enter.append("line")
-            .attr("x1", d => x(d.xValue))
-            .attr("y1", d => y(d.yValue))
-            .attr("x2", d => x(d.xValue))
-            .attr("y2", d => y(d.yValue))
-            .attr("stroke", "#5f1c75")
-            .attr("stroke-dasharray","2,2")
-            .attr("class", "userResidual")
-            .call(enter => enter.transition().duration(500)
-            .attr("y2", d => y(userLineData.predict(d => d.xValue)))
-        ),
-        update => update
-          .call(update => update.transition().duration(500)
-              .attr("y2", d => y(userLineData.predict(d => d.xValue)))
-          ),
-        exit => exit
-          .remove()
-      );
+      .join("line")
+          .attr("x1", d => x(d.xValue))
+          .attr("y1", d => y(d.yValue))
+          .attr("x2", d => x(d.xValue))
+          .attr("y2", d => y((userLineData.m * d.xValue) + userLineData.b))
+          .attr("stroke", "#5f1c75")
+          .attr("stroke-dasharray","2,2")
+          .attr("class", "userResidual")
+        
+          ;
       
-      // Check the residuals toggle
+      
+      //Check the residuals toggle
       if (!userLineResidualsToggle.checked) {
         residuals
         .classed('hidden', true);
