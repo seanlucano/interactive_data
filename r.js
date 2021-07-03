@@ -230,3 +230,7 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
         .html(`R = ${Math.sqrt(regressionLine.rSquared).toFixed(3)}`);
       }
 });
+
+// TO DO
+// add logic to R to be negative or positive depnding on slope
+//create an index.html page

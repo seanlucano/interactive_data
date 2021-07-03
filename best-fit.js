@@ -8,9 +8,16 @@ const userLineEquation = document.querySelector("#userLineEquation");
 const userLineM = document.querySelector("#userLineM");
 const userLineB = document.querySelector("#userLineB");
 
+// STYLE VARS
+const userLineColor = '#9d23c5';
+const bestFitLineColor = '#5a5c66';
+const residualStroke = 2;
+const lineStroke = 2;
+const dashArray = '2,2';
+
 // GLOBAL VARIABLE FOR USERLINE SELECTION 
 let userLine;
-
+let bestFitLine;
 
 // PLOT DIMENSIONS
 const margin = { top: 30, right: 30, bottom: 30, left: 30 },
@@ -85,6 +92,16 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
       renderResiduals();
     } else if(bestFitToggle.checked) {
       residualsToggle.disabled = false;
+    }
+  });
+
+  userLineToggle.addEventListener('change', (event) => {
+    if(!userLineToggle.checked) {
+      userLineResidualsToggle.disabled = true;
+      userLineResidualsToggle.checked = false;
+      renderUserLineResiduals();
+    } else if(userLineToggle.checked) {
+      userLineResidualsToggle.disabled = false;
     }
   });
 
@@ -181,22 +198,22 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
       .attr("cx", function (d) { return x(d.xValue); })
       .attr("cy", function (d) { return y(d.yValue); })
       .attr("r", 5)
-      .style("fill", "black")
-      .style('fill-opacity', '65%');
+      .style("fill", bestFitLineColor)
+      ;
   }
   
   
   function renderBestFitLine() {
-    const bestFitLine = svg.selectAll("#regressionLine")
+    bestFitLine = svg.selectAll("#regressionLine")
       .data([bestFitLineData]).join("line")
         .attr("x1", d => x(d.x))
         .attr("y1", d => y(d.y))
         .attr("x2", d => x(d.xx))
         .attr("y2", d => y(d.yy))
-        .attr("stroke-width", 2)
-        .attr("stroke", "black")
+        .attr("stroke-width", lineStroke)
+        .attr("stroke", bestFitLineColor)
         .attr("id", "regressionLine")
-        .attr("stroke-opacity", .6);
+        ;
 
         let slope = bestFitLineData.m
         let yIntercept = bestFitLineData.b
@@ -224,10 +241,10 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
         .attr("y1", d => y(d.y))
         .attr("x2", d => x(d.xx))
         .attr("y2", d => y(d.yy))
-        .attr("stroke-width", 2)
-        .attr("stroke", "#5f1c75")
+        .attr("stroke-width", lineStroke)
+        .attr("stroke", userLineColor)
         .attr("id", "userLine")
-        .attr("stroke-opacity", .6);
+        ;
 
     let slope = userLineData.m
     let yIntercept = userLineData.b
@@ -257,8 +274,9 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
             .attr("y1", d => y(d.yValue))
             .attr("x2", d => x(d.xValue))
             .attr("y2", d => y(d.yValue))
-            .attr("stroke", "grey")
-            .attr("stroke-dasharray","2,2")
+            .attr("stroke", bestFitLineColor)
+            .attr("stroke-width",residualStroke)
+            .attr("stroke-dasharray",dashArray)
             .attr("class", "residual")
             .call(enter => enter.transition().duration(500)
               .attr("y2", d => y(regressionLine.predict(d.xValue)))
@@ -279,6 +297,12 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
         residuals
         .classed('hidden', false);
       }
+      
+      // make everything easier to see!
+      focusGraphics();
+      
+        
+      
   }
 
   function renderUserLineResiduals() {
@@ -289,24 +313,64 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
           .attr("y1", d => y(d.yValue))
           .attr("x2", d => x(d.xValue))
           .attr("y2", d => y((userLineData.m * d.xValue) + userLineData.b))
-          .attr("stroke", "#5f1c75")
-          .attr("stroke-dasharray","2,2")
+          .attr("stroke", userLineColor)
+          .attr("stroke-dasharray",dashArray)
           .attr("class", "userResidual")
+          .attr("stroke-width",residualStroke)
         
           ;
       
       
       //Check the residuals toggle
-      if (!userLineResidualsToggle.checked) {
-        residuals
+    if (!userLineResidualsToggle.checked) {
+      residuals
         .classed('hidden', true);
-      } else if (userLineResidualsToggle.checked) {
+    } else if (userLineResidualsToggle.checked) {
         residuals
-        .classed('hidden', false);
+          .classed('hidden', false);
       }
+    
+    // make everything easier to see
+    focusGraphics();
+    
   }
 
-  
+  function focusGraphics() {
+    if (residualsToggle.checked && userLineResidualsToggle.checked) {
+      residualsGroup
+          .classed('offsetLeft', true);
+      userLineResidualsGroup
+          .classed('offsetRight', true);
+      
+    } else {
+      residualsGroup
+          .classed('offsetLeft', false);
+      userLineResidualsGroup
+          .classed('offsetRight', false);
+      
+    }
+    if (residualsToggle.checked || userLineResidualsToggle.checked) {
+      userLine
+      .classed('outFocus',true);
+      bestFitLine
+      .classed('outFocus',true);;
+    } else {
+      userLine
+            .classed('outFocus',false);
+      bestFitLine
+            .classed('outFocus',false);;
+    }
+  }
+
+//END!!!
 });
 
+// TO DO:
+// add marks to endpoints of a line to be handles
+// changing the cursor depending on the target
 
+
+//DONE
+// X make colors in the code easier to change
+// X check box dependencies for user line/residuals
+// X bump over residuals when viewing both

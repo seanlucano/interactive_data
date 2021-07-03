@@ -117,11 +117,11 @@ main {
 }
 
 #userLineEquation strong {
-  color: #80259f;
+  color: #9d23c5;
 }
 
 #bestFitLineEquation strong {
-  color: rgb(70, 69, 69);
+  color: #5a5c66;
 }
 
 #explainer {
@@ -151,5 +151,35 @@ footer p {
 }
 
 .hidden {
-  visibility: hidden;
+  opacity: 0;
+  transition: opacity, 0.5s;
+}
+
+/* .hidden:not {
+  opacity: 1;
+  transition: opacity, 0.5s;
+} */
+
+.offsetLeft {
+  transform: translate(-1.5px, 0px);
+  transition: transform, 0.5s;
+}
+
+.offsetRight {
+  transform: translate(1.5px, 0px);
+  transition: transform, 0.5s;
+}
+
+.inFocus {
+  stroke-opacity: 1;
+  transition: stroke-opacity, 0.5s;
+}
+
+.outFocus {
+  stroke-opacity: 0.5;
+  transition: stroke-opacity, 0.5s;
+}
+
+#target:hover {
+  cursor: crosshair;
 }
