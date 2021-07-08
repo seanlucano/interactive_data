@@ -150,6 +150,10 @@ footer p {
   margin: auto;
 }
 
+.resLength {
+  font-size: 0.8em;
+}
+
 .hidden {
   opacity: 0;
   transition: opacity, 0.5s;

@@ -153,6 +153,8 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
     // }
   };
 
+  
+
 
   
 
@@ -181,7 +183,7 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
       })
     .on("end", function (d) {
       let coordsDrag = d3.pointer(event, svg.node());  //update the line and dot positions with mouse move
-    
+      
     });
     // add line draw behavior to plot
     d3.select("#target").call(lineDraw);
@@ -317,20 +319,25 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
           .attr("stroke-dasharray",dashArray)
           .attr("class", "userResidual")
           .attr("stroke-width",residualStroke)
-        
           ;
+    const residualLengths = userLineResidualsGroup.selectAll("text")
+      .data(data, d => d.key)
+      .join("text")
+          .text(d => (d.yValue - ((userLineData.m * d.xValue) + userLineData.b)).toFixed(1))
+          .attr("class","resLength")
+          .attr("x", d => x(d.xValue)+2)
+          .attr("y", d => y((d.yValue + ((userLineData.m * d.xValue) + userLineData.b))/2))
       
-      
-      //Check the residuals toggle
+    //Check the residuals toggle
     if (!userLineResidualsToggle.checked) {
-      residuals
+      userLineResidualsGroup
         .classed('hidden', true);
     } else if (userLineResidualsToggle.checked) {
-        residuals
+        userLineResidualsGroup
           .classed('hidden', false);
       }
     
-    // make everything easier to see
+    // make everything easier to see!
     focusGraphics();
     
   }
@@ -362,6 +369,12 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
     }
   }
 
+  function getLength (x,y,xx,yy) {
+    const diffX = x - xx;
+    const diffY = y - yy;
+    const length = Math.hypot(diffX,diffY);
+    return length;
+  }
 //END!!!
 });
 
