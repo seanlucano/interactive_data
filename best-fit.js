@@ -156,11 +156,14 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
   
 
 
-  
+  init();
 
   //INITIALIZE THE PLOT
-  renderPoints();
-
+  function init() {
+    renderPoints();
+    renderBestFitLine();
+  
+  }
   // DEFINE LINEDRAW BEHVIOR
   const lineDraw = d3.drag()
     .on("start", function (event) {
@@ -270,33 +273,32 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
   function renderResiduals() {
     const residuals = residualsGroup.selectAll("line")
       .data(data, d => d.key)
-      .join(
-        enter => enter.append("line")
-            .attr("x1", d => x(d.xValue))
-            .attr("y1", d => y(d.yValue))
-            .attr("x2", d => x(d.xValue))
-            .attr("y2", d => y(d.yValue))
-            .attr("stroke", bestFitLineColor)
-            .attr("stroke-width",residualStroke)
-            .attr("stroke-dasharray",dashArray)
-            .attr("class", "residual")
-            .call(enter => enter.transition().duration(500)
-              .attr("y2", d => y(regressionLine.predict(d.xValue)))
-            ),
-        update => update
-            .call(update => update.transition().duration(500)
-                .attr("y2", d => y(regressionLine.predict(d.xValue)))
-            ),
-        exit => exit
-          .remove()
-      );
+      .join("line")
+          .attr("x1", d => x(d.xValue))
+          .attr("y1", d => y(d.yValue))
+          .attr("x2", d => x(d.xValue))
+          .attr("y2", d => y(regressionLine.predict(d.xValue)))
+          .attr("stroke", bestFitLineColor)
+          .attr("stroke-width",residualStroke)
+          .attr("stroke-dasharray",dashArray)
+          .attr("class", "residual")
+          ;
+
+      const residualLengths = residualsGroup.selectAll("text")
+      .data(data, d => d.key)
+      .join("text")
+          .text(d => (d.yValue - regressionLine.predict(d.xValue)).toFixed(1))
+          .attr("class","resLength")
+          .attr("x", d => x(d.xValue)-25)
+          .attr("y", d => y((d.yValue + regressionLine.predict(d.xValue))/2))
+          ;
 
       // Check the residuals toggle to render hidden or visible
       if (!residualsToggle.checked) {
-        residuals
+        residualsGroup
         .classed('hidden', true);
       } else if (residualsToggle.checked) {
-        residuals
+        residualsGroup
         .classed('hidden', false);
       }
       
@@ -320,6 +322,7 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
           .attr("class", "userResidual")
           .attr("stroke-width",residualStroke)
           ;
+    
     const residualLengths = userLineResidualsGroup.selectAll("text")
       .data(data, d => d.key)
       .join("text")
@@ -327,6 +330,7 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
           .attr("class","resLength")
           .attr("x", d => x(d.xValue)+2)
           .attr("y", d => y((d.yValue + ((userLineData.m * d.xValue) + userLineData.b))/2))
+          ;
       
     //Check the residuals toggle
     if (!userLineResidualsToggle.checked) {

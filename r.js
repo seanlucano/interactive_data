@@ -1,3 +1,10 @@
+// STYLE VARS
+const bestFitLineColor = '#5a5c66';
+const residualStroke = 2;
+const lineStroke = 2;
+const dashArray = '2,2';
+
+
 // set dimentions and margins of the plot 
 const margin = { top: 30, right: 30, bottom: 30, left: 30 },
   width = 600 - margin.left - margin.right,
@@ -75,10 +82,10 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
       .attr("y1", y(regressionLine[0][1]))
       .attr("x2", x(regressionLine[1][0]))
       .attr("y2", y(regressionLine[1][1]))
-      .attr("stroke-width", 2)
-      .attr("stroke", "black")
+      .attr("stroke-width", lineStroke)
+      .attr("stroke", bestFitLineColor)
       .attr("id", "regressionLine")
-      .attr("stroke-opacity", .8);
+      ;
 
     //add r value to the DOM
     d3.select("#R")
@@ -142,7 +149,7 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
               .attr("cy", d => y(d.yValue))
               //.attr("id", function (d,i) {return i;})
               .attr("r", 1)
-              .style("fill", "#5c42ee")
+              .style("fill", bestFitLineColor)
               .style('fill-opacity', '95%')
             .call(enter => enter
               .transition()
@@ -187,8 +194,9 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
               .attr("y1", d => y(d.yValue))
               .attr("x2", d => x(d.xValue))
               .attr("y2", d => y(d.yValue))
-              .attr("stroke", "grey")
-              .attr("stroke-dasharray","2,2")
+              .attr("stroke", bestFitLineColor)
+              .attr("stroke-width", lineStroke)
+              .attr("stroke-dasharray",dashArray)
               .attr("class", "residual")
               .call(enter => enter.transition().duration(500)
               .attr("y2", d => y(regressionLine.predict(d.xValue)))
@@ -217,7 +225,8 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
     function updateRegression() {
 
         regressionLine = regression(data); //calculate new regression line data
-        //console.log(regressionLine)
+        regressionLine.r = Math.sqrt(regressionLine.rSquared);
+        console.log(regressionLine);
         d3.select("#regressionLine") //update the regression line with new data
           .transition()
           .duration(500)
