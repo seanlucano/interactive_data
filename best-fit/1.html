@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Best Fit Lines</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+  </head>
+  <body>
+  
+  <header>
+      <span id="logo">
+        <h1>Playful Practice</h1>
+      </span>
+      <nav>
+        <!-- <div>About</div> -->
+        <!-- <div>Courses</div>
+        <div>{UserName}</div>
+        <div>
+          <span class="material-icons-outlined">
+              account_circle
+          </span>
+        </div> -->
+      </nav>
+  </header>  
+
+  <main>
+
+    <!-- SIDE NAV -->
+    <section id="courseNav"> 
+      <h4>Linear Regression</h4>
+      <ul> 
+        <li class="active"><a href="best-fit.html">Best Fit Lines</a></li>
+          <ol>
+            <li class="current">Imagine a line</li>
+          </ol>
+        
+        <li><a class="inactive" href="r.html">Playing with R</a></li>
+        <li class="inactive">Changing scales</li>
+      </ul>
+    </section>
+
+    <!-- MAIN WINDOW -->
+    <section id="interactive"> 
+    <h2>Best Fit Lines</h2>
+      
+      <div id="plotAndControls">
+        <section>
+          <svg id="plot"> </svg>
+        </section>
+
+        <section id="controls">
+          <section id="instructions">
+            <p id="dialogue">Can you imagine a line drawn through the points below that best fits the data?</p>
+            <p id="prompt">
+              Click and drag below to try drawing the line you imagine. Click 'Submit' when you're happy with your line.
+            </p>
+          </section>
+          
+          <section class="removed" id="user">
+            <label>
+              <!-- <input type="checkbox" id="userLineToggle" checked></input> -->
+            Your line
+            </label>
+            <label>
+              <!-- <input type="checkbox" id="userLineResidualsToggle"></input>
+            Residuals
+            </label> -->
+            <p id="userLineEquation">
+              Y = <strong id="userLineM">Slope</strong> X + <strong id="userLineB">Y-intercept</strong>
+            </p>
+          </section>
+
+          <section class="removed" id="bestFit">
+            <label>
+              <!-- <input type="checkbox" id="bestFitToggle"></input> -->
+            'Best Fit' Line
+            </label>
+            <!-- <label>
+              <input type="checkbox" id="residualsToggle" disabled></input>
+            Residuals
+            </label> -->
+            <p id="bestFitLineEquation">
+              Y = <strong id="bestFitLineM">Slope</strong> X + <strong id="bestFitLineB">Y-intercept</strong>
+            </p>
+          </section>
+          
+          <section id="userNav">
+        
+            <section id="navButtons">
+              <button id="reload">Start over</button>
+              <button id="submit" class="primary" >Submit</button>
+              <button id="next" class="primary removed"  >Next</button>
+              
+            </section>
+          
+          </section>
+
+        </section> 
+      </div>
+
+      <footer>Placeholder footer</footer>
+      
+    </section>
+
+  </main>  
+
+    
+    <!--Scripts-->
+    
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://unpkg.com/d3-regression@1.3.4/dist/d3-regression.min.js"></script>
+    <script src="1.js"></script>
+  </body>
+  
+  
+</html>
