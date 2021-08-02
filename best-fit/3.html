@@ -28,93 +28,98 @@
 
   <main>
 
+    <!-- SIDE NAV -->
     <section id="courseNav"> 
       <h4>Linear Regression</h4>
       <ul> 
-        <li class="active"><a href="best-fit.html">Best Fit Lines</a></li>
-        <ol>
-            <li><a href="1.html">Imagine a line</a></li>
-            <li><a href="2.html">Least squares</a></li>
+        <li class="active"><a href="1.html">Best Fit Lines</a></li>
+          <ol>
+            <li ><a href="1.html">Imagine a line...</a></li>
+            <li><a href="2.html">Residuals</a></li>
+            <li class="current"><a href="3.html">Least squares</a></li>
           </ol>
+        
         <li><a class="inactive" href="r.html">Playing with R</a></li>
         <li class="inactive">Changing scales</li>
       </ul>
     </section>
 
-
+    <!-- MAIN WINDOW -->
     <section id="interactive"> 
-      <h2>Best Fit Lines</h2>
+    <h2>Best Fit Lines</h2>
+    <h3>Least squares</h3>
       
       <div id="plotAndControls">
         <section>
           <svg id="plot"> </svg>
         </section>
-      
+
         <section id="controls">
           <section id="instructions">
-            <p id="dialogue"></p>
-            <p id="prompt"></p>
+            <p id="dialogue">Now let's look at the <strong>residual sum of squares (RSS)</strong> for the Least squares line and compare it to other possible lines we could draw through the data.
+            
+            <p id="prompt">
+              Click and drag to draw your own line to compare the RSS values.
+            </p>
           </section>
           
           <section id="user">
             <label>
-              <input type="checkbox" id="userLineToggle" checked></input> 
+            <input type="checkbox" id="userLineToggle" checked></input>
             Your line
             </label>
             <label>
-              <input type="checkbox" id="userLineResidualsToggle"></input>
+            <input type="checkbox" id="userLineResidualsToggle"></input>
             Residuals
             </label>
             <p id="userLineEquation">
-              Y = <strong id="userLineM">Slope</strong> X + <strong id="userLineB">Y-intercept</strong>
+              Y = <strong id="userLineM">Slope</strong> X + <strong id="userLineB">Y-intercept</strong> <p>RSS: <strong id="userRSS"></strong></p>
             </p>
           </section>
-      
+
           <section id="bestFit">
             <label>
-              <input type="checkbox" id="bestFitToggle"></input> 
-            'Best Fit' Line
+              <input type="checkbox" checked id="bestFitToggle"></input>
+            'Least squares' line
             </label>
             <label>
-              <input type="checkbox" id="residualsToggle" disabled></input>
+              <input type="checkbox" id="residualsToggle"></input>
             Residuals
-            </label> 
+            </label>
             <p id="bestFitLineEquation">
-              Y = <strong id="bestFitLineM">Slope</strong> X + <strong id="bestFitLineB">Y-intercept</strong>
+              Y = <strong id="bestFitLineM">Slope</strong> X + <strong id="bestFitLineB">Y-intercept</strong> <p>RSS: <strong id="bestFitRSS"> </strong></p>
             </p>
           </section>
           
           <section id="userNav">
         
-            <!-- <section id="navButtons">
+            <section id="navButtons">
               <button id="startOver">Start over</button>
-              <button id="submit" class="primary" >Submit</button>
-              <button id="show" class="primary removed"  >Show me!</button>
-              <a id="next" class="removed" href="2.html"><button class="primary" >Next</button></a>
+              <button id="next" class="primary">Next</button>
+              <button id="show" class="primary removed">Show me</button>
+              <button id="calculate" class="primary removed">Calculate</button>
+              <a id="compare" class="removed" href="3.html"><button class="primary" >Compare</button></a>
               
-            </section> -->
+            </section>
           
           </section>
-      
+
         </section> 
       </div>
 
-    <!-- <section id="explainer"> 
-      <h3>What's a best fit line?</h3>
-      <p>Yet it had to be done. He realized that, and when he had locked the door of his library, he opened the secret press into which he had thrust Basil Hallward's coat and bag. A huge fire was blazing. He piled another log on it. </p> 
-      <p>The smell of the singeing clothes and burning leather was horrible. It took him three-quarters of an hour to consume everything. At the end he felt faint and sick, and having lit some Algerian pastilles in a pierced copper brazier, he bathed his hands and forehead with a cool musk-scented vinegar.</p>
-    </section> -->
-  </main>  
+      
+      
+    </section>
 
+  </main>  
+  <footer></footer>
     
     <!--Scripts-->
     
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="https://unpkg.com/d3-regression@1.3.4/dist/d3-regression.min.js"></script>
-    <script src="s.js"></script>
+    <script src="3.js"></script>
   </body>
   
   
 </html>
-
-

@@ -32,10 +32,11 @@
     <section id="courseNav"> 
       <h4>Linear Regression</h4>
       <ul> 
-        <li class="active"><a href="best-fit.html">Best Fit Lines</a></li>
+        <li class="active"><a href="1.html">Best Fit Lines</a></li>
           <ol>
-            <li>Imagine a line</li>
-            <li class="current">Least squares</li>
+            <li ><a href="1.html">Imagine a line...</a></li>
+            <li class="current"><a href="2.html">Residuals</a></li>
+            <li><a href="3.html">Least squares</a></li>
           </ol>
         
         <li><a class="inactive" href="r.html">Playing with R</a></li>
@@ -46,6 +47,7 @@
     <!-- MAIN WINDOW -->
     <section id="interactive"> 
     <h2>Best Fit Lines</h2>
+    <h3>Residuals</h3>
       
       <div id="plotAndControls">
         <section>
@@ -54,9 +56,13 @@
 
         <section id="controls">
           <section id="instructions">
-            <p id="dialogue">Can you imagine a line drawn through the points below that best fits the data?</p>
+            <p id="dialogue">Let's take a minute to focus on this so called 'best fit' line.
+            <br>
+            <br>What makes a best fit line...best?
+            <br>
+            <br>Let's image you drew a verticle line from each point on the plot to our best fit line. These verticle lines are called <strong>residuals</strong>.
             <p id="prompt">
-              Click and drag below to try drawing the line you imagine. Click 'Submit' when you're happy with your line.
+              Turn on the best fit line and verticle lines by checking the boxes below.
             </p>
           </section>
           
@@ -74,15 +80,15 @@
             </p>
           </section>
 
-          <section class="removed" id="bestFit">
+          <section id="bestFit">
             <label>
-              <!-- <input type="checkbox" id="bestFitToggle"></input> -->
+              <input type="checkbox" checked id="bestFitToggle"></input>
             'Best Fit' Line
             </label>
-            <!-- <label>
-              <input type="checkbox" id="residualsToggle" disabled></input>
+            <label>
+              <input type="checkbox" id="residualsToggle"></input>
             Residuals
-            </label> -->
+            </label>
             <p id="bestFitLineEquation">
               Y = <strong id="bestFitLineM">Slope</strong> X + <strong id="bestFitLineB">Y-intercept</strong>
             </p>
@@ -92,9 +98,10 @@
         
             <section id="navButtons">
               <button id="startOver">Start over</button>
-              <button id="submit" class="primary" >Submit</button>
-              <button id="show" class="primary removed"  >Show me!</button>
-              <button id="next" class="primary removed" >Next</button>
+              <button id="next" class="primary">Next</button>
+              <button id="show" class="primary removed">Show me</button>
+              <button id="calculate" class="primary removed">Calculate</button>
+              <a id="compare" class="removed" href="3.html"><button class="primary" >Compare</button></a>
               
             </section>
           

@@ -7,12 +7,14 @@ const bestFitText = document.querySelector("#bestFit");
 const userLineEquation = document.querySelector("#userLineEquation");
 const userLineM = document.querySelector("#userLineM");
 const userLineB = document.querySelector("#userLineB");
+const bestFitRSS = document.querySelector("#bestFitRSS");
+const userRSS = document.querySelector("#userRSS");
 
 // const submitBtn = document.querySelector("#submit");
-const compareBtn = document.querySelector("#compare");
-const calculateBtn = document.querySelector("#calculate");
-const showBtn = document.querySelector("#show");
-const nextBtn = document.querySelector('#next');
+// const compareBtn = document.querySelector("#compare");
+// const calculateBtn = document.querySelector("#calculate");
+// const showBtn = document.querySelector("#show");
+// const nextBtn = document.querySelector('#next');
 const startOverBtn = document.querySelector('#startOver');
 
 
@@ -30,8 +32,11 @@ const lineStroke = 2;
 const dashArray = '2,2';
 
 //SUM OF SQUARED NUMBER INITIALIZTION
-let sumOfSquaredResiduals = '';
-let residualsArray = [];
+let bestFitRSSValue = '';
+let bestFitResidualsArray = [];
+let userRSSValue = '';
+let userResidualsArray = [];
+
 
 // GLOBAL VARIABLE FOR USERLINE SELECTION 
 let userLine;
@@ -125,59 +130,57 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
 
 //USER NAVIGATION EVENTS
 
-//NEXT
-nextBtn.addEventListener("click", (event)=> {
-  dialogue.innerHTML = 
-    "On the chart, we're now seeing the length of each residual. <br><br>It turns out that this best fit line was calculated by generating a line that yeilds the smallest sum total of all residual lengths possible for this plot!<br><br>But wait...you may notice that residuals above the line are <strong>positive</strong>, and below are <strong>negative</strong>.  So how do we find a sum of the lengths of all residuals?";
+// //NEXT
+// nextBtn.addEventListener("click", (event)=> {
+//   dialogue.innerHTML = 
+//     "On the chart, we're now seeing the length of each residual. <br><br>It turns out that this best fit line was calculated by generating a line that yeilds the smallest sum total of all residual lengths possible for this plot!<br><br>But wait...you may notice that residuals above the line are <strong>positive</strong>, and below are <strong>negative</strong>.  So how do we find a sum of the lengths of all residuals?";
 
-  prompt.innerHTML = 
-    "Click 'Show me' to see how stats nerds deal with the negative and positive values";
-  residualsToggle.checked = true;
-  nextBtn.classList.add("removed");
-  showBtn.classList.remove("removed");
-  renderResiduals();
-  renderResidualLengths();
-});
+//   prompt.innerHTML = 
+//     "Click 'Show me' to see how stats nerds deal with the negative and positive values";
+//   residualsToggle.checked = true;
+//   nextBtn.classList.add("removed");
+//   showBtn.classList.remove("removed");
+//   renderResiduals();
+//   renderResidualLengths();
+// });
 
-//SHOW ME
-showBtn.addEventListener("click", (event)=> {
-  dialogue.innerHTML = 
-    "<br><br>Statisticians solve this little dilema by squaring each residual so all values are positive.  For this line, the sum of squared residuals calculation would look like this:<br><br> -8.4^2 + 9.1^2 + 6.1^2 + -6.9^2 + 1.4^2 + -1.3^2";
+// //SHOW ME
+// showBtn.addEventListener("click", (event)=> {
+//   dialogue.innerHTML = 
+//     "<br><br>Statisticians solve this little dilema by squaring each residual so all values are positive.  For this line, the sum of squared residuals calculation would look like this:<br><br> -8.4^2 + 9.1^2 + 6.1^2 + -6.9^2 + 1.4^2 + -1.3^2";
 
-  prompt.innerHTML = 
-    "Click 'calculate' to find the sum of the squared residuals for the best fit line.";
-  residualsToggle.checked = true;
-  showBtn.classList.add("removed");
-  calculateBtn.classList.remove("removed");
-  renderResiduals();
-  renderResidualLengths();
+//   prompt.innerHTML = 
+//     "Click 'calculate' to find the sum of the squared residuals for the best fit line.";
+//   residualsToggle.checked = true;
+//   showBtn.classList.add("removed");
+//   calculateBtn.classList.remove("removed");
+//   renderResiduals();
+//   renderResidualLengths();
 
-});
+// });
 
-//COMPARE
-compareBtn.addEventListener("click", (event) => {
-});
+// //COMPARE
+// compareBtn.addEventListener("click", (event) => {
+// });
 
-//CALCULATE
-calculateBtn.addEventListener("click", (event)=> {
+// //CALCULATE
+// calculateBtn.addEventListener("click", (event)=> {
   
-  residualsToggle.checked = true;
-  // calculateBtn.classList.add("removed");
-  pushResiduals();
-  sumOfSquaredResiduals = sumOfSquares(residualsArray);
-  console.log(sumOfSquaredResiduals);
-  calculateBtn.classList.add("removed");
-  compareBtn.classList.remove("removed");
+//   residualsToggle.checked = true;
+//   // calculateBtn.classList.add("removed");
+//   pushResiduals();
+//   sumOfSquaredResiduals = sumOfSquares(residualsArray);
+//   console.log(sumOfSquaredResiduals);
+//   calculateBtn.classList.add("removed");
+//   compareBtn.classList.remove("removed");
 
-  dialogue.innerHTML = 
-    `The sum of the squared residuals for the best fit line is: <strong>${sumOfSquaredResiduals.toFixed(2)}</strong>.<br><br>In fact, this best fit line is actually called (drumroll....) the <strong>least squares line</strong>, because it represents a line that generates the smallest possible sum of squared residuals.`
+//   dialogue.innerHTML = 
+//     `The sum of the squared residuals for the best fit line is: <strong>${sumOfSquaredResiduals.toFixed(2)}</strong>.<br><br>In fact, this best fit line is actually called (drumroll....) the <strong>least squares line</strong>, because it represents a line that generates the smallest possible sum of squared residuals.`
 
-  prompt.innerHTML = 
-    "How does this compare to your line?  Click 'compare' to find out!";
+//   prompt.innerHTML = 
+//     "How does this compare to your line?  Click 'compare' to find out!";
 
-  
-
-});
+// });
 
 //START OVER
 startOverBtn.addEventListener("click", (event) => {
@@ -234,9 +237,13 @@ startOverBtn.addEventListener("click", (event) => {
 
   
 
-// INITIAL PLOT
+// INITIALIZE BEST FIT LINE AND RESIDUALS
  renderPoints();
  renderBestFitLine();
+ pushBestFitResiduals();
+ bestFitRSSValue = sumOfSquares(bestFitResidualsArray);
+ bestFitRSS.innerHTML = `${bestFitRSSValue.toFixed(2)}`;
+ 
   
  // USER NAV FUNCTIONS
   function sumOfSquares(array) {
@@ -265,7 +272,12 @@ startOverBtn.addEventListener("click", (event) => {
       userLineData.slope();
       userLineData.yIntercept();
       renderUserLine();
-      //renderUserLineResiduals();
+      renderUserLineResiduals();
+      pushUserLineResiduals();
+      console.log(userResidualsArray);
+      userRSSValue = sumOfSquares(userResidualsArray);
+      console.log(userRSSValue);
+      userRSS.innerHTML = `${userRSSValue.toFixed(2)}`;
       
       })
     .on("end", function (d) {
@@ -342,14 +354,14 @@ startOverBtn.addEventListener("click", (event) => {
     userLineM.innerHTML = `${slope}`;
     userLineB.innerHTML = `${yIntercept}`;
 
-    // if (!userLineToggle.checked) {
-    //   userLine.classed('hidden', true);
-    //   userLineEquation.classList.add('hidden');
+    if (!userLineToggle.checked) {
+      userLine.classed('hidden', true);
+      userLineEquation.classList.add('hidden');
       
-    // } else if (userLineToggle.checked) {
-    //   userLine.classed('hidden', false); 
-    //   userLineEquation.classList.remove('hidden'); 
-    // }
+    } else if (userLineToggle.checked) {
+      userLine.classed('hidden', false); 
+      userLineEquation.classList.remove('hidden'); 
+    }
   }
 
 
@@ -377,8 +389,8 @@ startOverBtn.addEventListener("click", (event) => {
         .classed('hidden', false);
       }
       
-      // make everything easier to see!
-      //focusGraphics();
+      //make everything easier to see!
+      focusGraphics();
   }
 
   function renderResidualLengths() {
@@ -392,12 +404,16 @@ startOverBtn.addEventListener("click", (event) => {
           ;
   }
 
-  function pushResiduals() {
-    console.log(data);
-    residualsArray = data.map(d => {
+  function pushBestFitResiduals() {
+    bestFitResidualsArray = data.map(d => {
       return (d.yValue - regressionLine.predict(d.xValue));
     });
-    console.log(residualsArray);
+  }
+  
+  function pushUserLineResiduals() {
+    userLineResidualsArray = data.map(d => {
+      return (d => (d.yValue - ((userLineData.m * d.xValue) + userLineData.b)));
+    });
   }
 
   function renderUserLineResiduals() {
