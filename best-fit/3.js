@@ -104,8 +104,8 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
   //CHECK BOX EVENT LISTERNERS
   bestFitToggle.addEventListener('change', (event) => renderBestFitLine() );
   residualsToggle.addEventListener('change', (event) => renderResiduals() );
-  // userLineToggle.addEventListener('change', (event) => renderUserLine() );
-  // userLineResidualsToggle.addEventListener('change', (event) => renderUserLineResiduals() );
+  userLineToggle.addEventListener('change', (event) => renderUserLine() );
+  userLineResidualsToggle.addEventListener('change', (event) => renderUserLineResiduals() );
 
   //disable residuals if best fit line is unchecked
   bestFitToggle.addEventListener('change', (event) => {
@@ -118,15 +118,15 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
     }
   });
 
-  // userLineToggle.addEventListener('change', (event) => {
-  //   if(!userLineToggle.checked) {
-  //     userLineResidualsToggle.disabled = true;
-  //     userLineResidualsToggle.checked = false;
-  //     renderUserLineResiduals();
-  //   } else if(userLineToggle.checked) {
-  //     userLineResidualsToggle.disabled = false;
-  //   }
-  // });
+  userLineToggle.addEventListener('change', (event) => {
+    if(!userLineToggle.checked) {
+      userLineResidualsToggle.disabled = true;
+      userLineResidualsToggle.checked = false;
+      renderUserLineResiduals();
+    } else if(userLineToggle.checked) {
+      userLineResidualsToggle.disabled = false;
+    }
+  });
 
 //USER NAVIGATION EVENTS
 
@@ -170,7 +170,7 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
 //   // calculateBtn.classList.add("removed");
 //   pushResiduals();
 //   sumOfSquaredResiduals = sumOfSquares(residualsArray);
-//   console.log(sumOfSquaredResiduals);
+
 //   calculateBtn.classList.add("removed");
 //   compareBtn.classList.remove("removed");
 
@@ -274,9 +274,7 @@ startOverBtn.addEventListener("click", (event) => {
       renderUserLine();
       renderUserLineResiduals();
       pushUserLineResiduals();
-      console.log(userResidualsArray);
       userRSSValue = sumOfSquares(userResidualsArray);
-      console.log(userRSSValue);
       userRSS.innerHTML = `${userRSSValue.toFixed(2)}`;
       
       })
@@ -389,12 +387,7 @@ startOverBtn.addEventListener("click", (event) => {
         .classed('hidden', false);
       }
       
-      //make everything easier to see!
-      focusGraphics();
-  }
-
-  function renderResidualLengths() {
-    const residualLengths = residualsGroup.selectAll("text")
+      const residualLengths = residualsGroup.selectAll("text")
       .data(data, d => d.key)
       .join("text")
           .text(d => (d.yValue - regressionLine.predict(d.xValue)).toFixed(1))
@@ -402,7 +395,10 @@ startOverBtn.addEventListener("click", (event) => {
           .attr("x", d => x(d.xValue)-25)
           .attr("y", d => y((d.yValue + regressionLine.predict(d.xValue))/2))
           ;
+      //make everything easier to see!
+      focusGraphics();
   }
+
 
   function pushBestFitResiduals() {
     bestFitResidualsArray = data.map(d => {
@@ -411,8 +407,8 @@ startOverBtn.addEventListener("click", (event) => {
   }
   
   function pushUserLineResiduals() {
-    userLineResidualsArray = data.map(d => {
-      return (d => (d.yValue - ((userLineData.m * d.xValue) + userLineData.b)));
+    userResidualsArray = data.map(d => {
+      return(d.yValue - ((userLineData.m * d.xValue) + userLineData.b));
     });
   }
 
@@ -434,7 +430,7 @@ startOverBtn.addEventListener("click", (event) => {
       .data(data, d => d.key)
       .join("text")
           .text(d => (d.yValue - ((userLineData.m * d.xValue) + userLineData.b)).toFixed(1))
-          .attr("class","resLength")
+          .attr("class","userResLength")
           .attr("x", d => x(d.xValue)+2)
           .attr("y", d => y((d.yValue + ((userLineData.m * d.xValue) + userLineData.b))/2))
           ;

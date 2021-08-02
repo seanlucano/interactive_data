@@ -132,6 +132,10 @@ main {
   color: #5a5c66;
 }
 
+#userRSS {
+  color: #9d23c5;
+}
+
 #explainer {
   border-left: solid grey 1px;
   padding: 30px;
@@ -193,6 +197,12 @@ footer p {
 .resLength {
   font-size: 0.8em;
   font-weight: bold;
+}
+
+.userResLength {
+  font-size: 0.8em;
+  font-weight: bold;
+  stroke: #9d23c5;
 }
 
 .hidden {
