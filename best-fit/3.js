@@ -144,43 +144,7 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
 //   renderResidualLengths();
 // });
 
-// //SHOW ME
-// showBtn.addEventListener("click", (event)=> {
-//   dialogue.innerHTML = 
-//     "<br><br>Statisticians solve this little dilema by squaring each residual so all values are positive.  For this line, the sum of squared residuals calculation would look like this:<br><br> -8.4^2 + 9.1^2 + 6.1^2 + -6.9^2 + 1.4^2 + -1.3^2";
 
-//   prompt.innerHTML = 
-//     "Click 'calculate' to find the sum of the squared residuals for the best fit line.";
-//   residualsToggle.checked = true;
-//   showBtn.classList.add("removed");
-//   calculateBtn.classList.remove("removed");
-//   renderResiduals();
-//   renderResidualLengths();
-
-// });
-
-// //COMPARE
-// compareBtn.addEventListener("click", (event) => {
-// });
-
-// //CALCULATE
-// calculateBtn.addEventListener("click", (event)=> {
-  
-//   residualsToggle.checked = true;
-//   // calculateBtn.classList.add("removed");
-//   pushResiduals();
-//   sumOfSquaredResiduals = sumOfSquares(residualsArray);
-
-//   calculateBtn.classList.add("removed");
-//   compareBtn.classList.remove("removed");
-
-//   dialogue.innerHTML = 
-//     `The sum of the squared residuals for the best fit line is: <strong>${sumOfSquaredResiduals.toFixed(2)}</strong>.<br><br>In fact, this best fit line is actually called (drumroll....) the <strong>least squares line</strong>, because it represents a line that generates the smallest possible sum of squared residuals.`
-
-//   prompt.innerHTML = 
-//     "How does this compare to your line?  Click 'compare' to find out!";
-
-// });
 
 //START OVER
 startOverBtn.addEventListener("click", (event) => {

@@ -327,7 +327,7 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
       .data(data, d => d.key)
       .join("text")
           .text(d => (d.yValue - ((userLineData.m * d.xValue) + userLineData.b)).toFixed(1))
-          .attr("class","resLength")
+          .attr("class","userResLength")
           .attr("x", d => x(d.xValue)+2)
           .attr("y", d => y((d.yValue + ((userLineData.m * d.xValue) + userLineData.b))/2))
           ;
