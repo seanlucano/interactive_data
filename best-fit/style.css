@@ -82,6 +82,10 @@ li {
   font-weight: bold;
 }
 
+.current {
+  font-weight: bold;
+}
+
 .inactive {
   color: rgb(92, 89, 89);
 }
@@ -103,15 +107,19 @@ main {
   padding-right: 30px;
 }
 
-#controls {
-  margin-top: 30px;
+#plotAndControls {
   display: flex;
-  flex-flow: row wrap;
-  justify-content: space-evenly;
+  flex-flow: row;
+  align-items: flex-start;
 }
+
+#controls {
+}
+
 #bestFit,
 #user {
   padding: 10px;
+  margin: 10px;
   border: 1px solid rgb(118, 116, 116);
   border-radius: 5px;
 }
@@ -124,18 +132,50 @@ main {
   color: #5a5c66;
 }
 
+#userRSS {
+  color: #9d23c5;
+}
+
 #explainer {
   border-left: solid grey 1px;
   padding: 30px;
 }
 
+#userNav {
+  display: flex;
+}
+
+#prompt {
+  color: #5c42ee;
+}
+
+#prompt:before {
+  font-family: "Material Icons";
+  content: "\e937";
+}
+
+#navButtons {
+}
+
 button {
-  background: #5c42ee;
   border-radius: 5px;
-  border: 1px solid #5c42ee;
-  color: #ffffff;
+  border: 1px solid grey;
   padding: 5px 20px;
   margin-top: 10px;
+  background: white;
+  color: #5c42ee;
+  transition: filter 1s ease;
+}
+
+button.primary {
+  background: #5c42ee;
+  color: #ffffff;
+  border: 1px solid #5c42ee;
+}
+
+button:hover {
+  filter: brightness(1.3);
+  cursor: pointer;
 }
 
 footer {
@@ -150,8 +190,19 @@ footer p {
   margin: auto;
 }
 
+.removed {
+  display: none;
+}
+
 .resLength {
   font-size: 0.8em;
+  font-weight: bold;
+}
+
+.userResLength {
+  font-size: 0.8em;
+  font-weight: bold;
+  stroke: #9d23c5;
 }
 
 .hidden {

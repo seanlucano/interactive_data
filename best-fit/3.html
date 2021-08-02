@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Best Fit Lines</title>
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+  </head>
+  <body>
+  
+  <header>
+      <span id="logo">
+        <h1>Playful Practice</h1>
+      </span>
+      <nav>
+        <!-- <div>About</div> -->
+        <!-- <div>Courses</div>
+        <div>{UserName}</div>
+        <div>
+          <span class="material-icons-outlined">
+              account_circle
+          </span>
+        </div> -->
+      </nav>
+  </header>  
+
+  <main>
+
+    <!-- SIDE NAV -->
+    <section id="courseNav"> 
+      <h4>Linear Regression</h4>
+      <ul> 
+        <li class="active"><a href="1.html">Best Fit Lines</a></li>
+          <ol>
+            <li ><a href="1.html">Imagine a line...</a></li>
+            <li><a href="2.html">Residuals</a></li>
+            <li class="current"><a href="3.html">Least squares</a></li>
+            <li><a href="s.html">Play time!</a></li>
+          </ol>
+        
+        <li><a class="inactive" href="r.html">Playing with R</a></li>
+        <li class="inactive">Changing scales</li>
+      </ul>
+    </section>
+
+    <!-- MAIN WINDOW -->
+    <section id="interactive"> 
+    <h2>Best Fit Lines</h2>
+    <h3>Least squares</h3>
+      
+      <div id="plotAndControls">
+        <section>
+          <svg id="plot"> </svg>
+        </section>
+
+        <section id="controls">
+          <section id="instructions">
+            <p id="dialogue">Now let's look at the <strong>residual sum of squares (RSS)</strong> for the Least squares line and compare it to other possible lines we could draw through the data.
+            
+            <p id="prompt">
+              Click and drag to draw your own line to compare the RSS values. Can you get an RSS value lower than the Least squares line?
+            </p>
+          </section>
+          
+          <section id="user">
+            <label>
+            <input type="checkbox" id="userLineToggle" checked></input>
+            Your line
+            </label>
+            <label>
+            <input type="checkbox" id="userLineResidualsToggle"></input>
+            Residuals
+            </label>
+            <p id="userLineEquation">
+              Y = <strong id="userLineM">Slope</strong> X + <strong id="userLineB">Y-intercept</strong> <p>RSS: <strong id="userRSS"></strong></p>
+            </p>
+          </section>
+
+          <section id="bestFit">
+            <label>
+              <input type="checkbox" checked id="bestFitToggle"></input>
+            'Least squares' line
+            </label>
+            <label>
+              <input type="checkbox" id="residualsToggle"></input>
+            Residuals
+            </label>
+            <p id="bestFitLineEquation">
+              Y = <strong id="bestFitLineM">Slope</strong> X + <strong id="bestFitLineB">Y-intercept</strong> <p>RSS: <strong id="bestFitRSS"> </strong></p>
+            </p>
+          </section>
+          
+          <section id="userNav">
+        
+            <section id="navButtons">
+              <button id="startOver">Start over</button>
+              <button id="next" class="primary">Next</button>
+              <button id="show" class="primary removed">Show me</button>
+              <button id="calculate" class="primary removed">Calculate</button>
+              <a id="compare" class="removed" href="3.html"><button class="primary" >Compare</button></a>
+              
+            </section>
+          
+          </section>
+
+        </section> 
+      </div>
+
+      
+      
+    </section>
+
+  </main>  
+  <footer></footer>
+    
+    <!--Scripts-->
+    
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://unpkg.com/d3-regression@1.3.4/dist/d3-regression.min.js"></script>
+    <script src="3.js"></script>
+  </body>
+  
+  
+</html>

@@ -8,6 +8,17 @@ const userLineEquation = document.querySelector("#userLineEquation");
 const userLineM = document.querySelector("#userLineM");
 const userLineB = document.querySelector("#userLineB");
 
+const submitBtn = document.querySelector("#submit");
+const showBtn = document.querySelector("#show");
+const startOverBtn = document.querySelector('#startOver');
+const nextBtn = document.querySelector('#next');
+
+const userLineControls = document.querySelector("#user");
+const bestFitLineControls = document.querySelector("#bestFit");
+const dialogue = document.querySelector("#dialogue");
+const prompt = document.querySelector("#prompt");
+
+
 // STYLE VARS
 const userLineColor = '#9d23c5';
 const bestFitLineColor = '#5a5c66';
@@ -79,31 +90,72 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
 
 
   //CHECK BOX EVENT LISTERNERS
-  bestFitToggle.addEventListener('change', (event) => renderBestFitLine() );
-  residualsToggle.addEventListener('change', (event) => renderResiduals() );
-  userLineToggle.addEventListener('change', (event) => renderUserLine() );
-  userLineResidualsToggle.addEventListener('change', (event) => renderUserLineResiduals() );
+  // bestFitToggle.addEventListener('change', (event) => renderBestFitLine() );
+  // residualsToggle.addEventListener('change', (event) => renderResiduals() );
+  // userLineToggle.addEventListener('change', (event) => renderUserLine() );
+  // userLineResidualsToggle.addEventListener('change', (event) => renderUserLineResiduals() );
 
   //disable residuals if best fit line is unchecked
-  bestFitToggle.addEventListener('change', (event) => {
-    if(!bestFitToggle.checked) {
-      residualsToggle.disabled = true;
-      residualsToggle.checked = false;
-      renderResiduals();
-    } else if(bestFitToggle.checked) {
-      residualsToggle.disabled = false;
-    }
-  });
+  // bestFitToggle.addEventListener('change', (event) => {
+  //   if(!bestFitToggle.checked) {
+  //     residualsToggle.disabled = true;
+  //     residualsToggle.checked = false;
+  //     renderResiduals();
+  //   } else if(bestFitToggle.checked) {
+  //     residualsToggle.disabled = false;
+  //   }
+  // });
 
-  userLineToggle.addEventListener('change', (event) => {
-    if(!userLineToggle.checked) {
-      userLineResidualsToggle.disabled = true;
-      userLineResidualsToggle.checked = false;
-      renderUserLineResiduals();
-    } else if(userLineToggle.checked) {
-      userLineResidualsToggle.disabled = false;
-    }
-  });
+  // userLineToggle.addEventListener('change', (event) => {
+  //   if(!userLineToggle.checked) {
+  //     userLineResidualsToggle.disabled = true;
+  //     userLineResidualsToggle.checked = false;
+  //     renderUserLineResiduals();
+  //   } else if(userLineToggle.checked) {
+  //     userLineResidualsToggle.disabled = false;
+  //   }
+  // });
+
+//USER NAVIGATION EVENTS
+
+//SUBMIT
+submitBtn.addEventListener("click", (event) => {
+  userLineControls.classList.remove("removed");
+  submitBtn.classList.add("removed");
+  showBtn.classList.remove("removed");
+  dialogue.innerHTML = 
+    "Nice job! Below you will see an equation reprenting your line.  But is this a good representation of the data?  Fortunately, statisticians have a tried and tue way of creating a line of 'Best fit' for this sort of data.";
+  
+  prompt.innerHTML = 
+    "Click 'Show me' to see how your line compares to this myseterious 'Best fit' line";
+});
+
+//SHOW
+showBtn.addEventListener("click",function(){
+  renderBestFitLine();
+  bestFitLineControls.classList.remove("removed");
+  showBtn.classList.add("removed");
+  nextBtn.classList.remove("removed");
+
+
+  dialogue.innerHTML = 
+    "Were you close?  Hopefully you had a slope with the positive sign and a y-intercept with a negative sign.  But why the difference?  What makes the 'Best Fit' line best and your line just a guess?";
+  
+  prompt.innerHTML = 
+    "Click 'Next' to investigate this best fit line and learn about why it also goes by another name &#x1F632;";
+
+});
+
+//NEXT
+nextBtn.addEventListener("click",function(){
+});
+
+
+
+//START OVER
+startOverBtn.addEventListener("click", (event) => {
+  window.location.reload();
+});
 
   //REGRESSION DATA
   const regression = d3.regressionLinear()  // store output of function generator
@@ -156,14 +208,10 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
   
 
 
-  init();
+ renderPoints();
 
-  //INITIALIZE THE PLOT
-  function init() {
-    renderPoints();
-    renderBestFitLine();
-  
-  }
+  // USER NAV FUNCTIONS
+
   // DEFINE LINEDRAW BEHVIOR
   const lineDraw = d3.drag()
     .on("start", function (event) {
@@ -181,7 +229,7 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
       userLineData.slope();
       userLineData.yIntercept();
       renderUserLine();
-      renderUserLineResiduals();
+      //renderUserLineResiduals();
       
       })
     .on("end", function (d) {
@@ -227,16 +275,16 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
         bestFitLineM.innerHTML = `${slope}`;
         bestFitLineB.innerHTML = `${yIntercept}`;
       
-    if (!bestFitToggle.checked) {
-              bestFitLine
-              .classed('hidden', true);
-              bestFitLineEquation.classList.add('hidden');
-              
-            } else if (bestFitToggle.checked) {
-              bestFitLine
-              .classed('hidden', false); 
-              bestFitLineEquation.classList.remove('hidden');
-        } 
+    // if (!bestFitToggle.checked) {
+    //       bestFitLine
+    //       .classed('hidden', true);
+    //       bestFitLineEquation.classList.add('hidden');
+          
+    //     } else if (bestFitToggle.checked) {
+    //       bestFitLine
+    //       .classed('hidden', false); 
+    //       bestFitLineEquation.classList.remove('hidden');
+    // } 
   }
 
   function renderUserLine() {
@@ -258,14 +306,14 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
     userLineM.innerHTML = `${slope}`;
     userLineB.innerHTML = `${yIntercept}`;
 
-    if (!userLineToggle.checked) {
-      userLine.classed('hidden', true);
-      userLineEquation.classList.add('hidden');
+    // if (!userLineToggle.checked) {
+    //   userLine.classed('hidden', true);
+    //   userLineEquation.classList.add('hidden');
       
-    } else if (userLineToggle.checked) {
-      userLine.classed('hidden', false); 
-      userLineEquation.classList.remove('hidden'); 
-    }
+    // } else if (userLineToggle.checked) {
+    //   userLine.classed('hidden', false); 
+    //   userLineEquation.classList.remove('hidden'); 
+    // }
   }
 
 
@@ -379,15 +427,6 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
     const length = Math.hypot(diffX,diffY);
     return length;
   }
-//END!!!
+
+
 });
-
-// TO DO:
-// add marks to endpoints of a line to be handles
-// changing the cursor depending on the target
-
-
-//DONE
-// X make colors in the code easier to change
-// X check box dependencies for user line/residuals
-// X bump over residuals when viewing both
