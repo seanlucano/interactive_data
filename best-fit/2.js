@@ -99,6 +99,7 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
   //CHECK BOX EVENT LISTERNERS
   bestFitToggle.addEventListener('change', (event) => renderBestFitLine() );
   residualsToggle.addEventListener('change', (event) => renderResiduals() );
+  residualsToggle.addEventListener('click',(event) => nextBtn.disabled = false);
   // userLineToggle.addEventListener('change', (event) => renderUserLine() );
   // userLineResidualsToggle.addEventListener('change', (event) => renderUserLineResiduals() );
 
@@ -134,9 +135,11 @@ nextBtn.addEventListener("click", (event)=> {
     "Click 'Show me' to see how stats nerds deal with the negative and positive values";
   residualsToggle.checked = true;
   nextBtn.classList.add("removed");
-  showBtn.classList.remove("removed");
+  
   renderResiduals();
   renderResidualLengths();
+
+  setTimeout( ()=>showBtn.classList.remove("removed"), 3000);
 });
 
 //SHOW ME
@@ -148,15 +151,13 @@ showBtn.addEventListener("click", (event)=> {
     "Click 'calculate' to find the sum of the squared residuals for the best fit line.";
   residualsToggle.checked = true;
   showBtn.classList.add("removed");
-  calculateBtn.classList.remove("removed");
+  
   renderResiduals();
   renderResidualLengths();
 
+  setTimeout( ()=>calculateBtn.classList.remove("removed"), 3000);
 });
 
-//COMPARE
-compareBtn.addEventListener("click", (event) => {
-});
 
 //CALCULATE
 calculateBtn.addEventListener("click", (event)=> {
@@ -167,7 +168,7 @@ calculateBtn.addEventListener("click", (event)=> {
   sumOfSquaredResiduals = sumOfSquares(residualsArray);
   console.log(sumOfSquaredResiduals);
   calculateBtn.classList.add("removed");
-  compareBtn.classList.remove("removed");
+  
 
   dialogue.innerHTML = 
     `The sum of the squared residuals for the best fit line is: <strong>${sumOfSquaredResiduals.toFixed(2)}</strong>.<br><br>In fact, this best fit line is actually called (drumroll....) the <strong>least squares line</strong>, because it represents a line that generates the smallest possible sum of squared residuals.`
@@ -175,8 +176,13 @@ calculateBtn.addEventListener("click", (event)=> {
   prompt.innerHTML = 
     "How does this compare to your line?  Click 'compare' to find out!";
 
+    setTimeout( ()=> compareBtn.classList.remove("removed"), 3000 );
   
 
+});
+
+//COMPARE
+compareBtn.addEventListener("click", (event) => {
 });
 
 //START OVER

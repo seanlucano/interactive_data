@@ -116,18 +116,29 @@ d3.csv("https://raw.githubusercontent.com/seanlucano/interactive_data/main/test.
   //   }
   // });
 
-//USER NAVIGATION EVENTS
+
+//DIALOGUE & POMPTS
+
+const dialogue1 = "Nice job! Below you will see an equation reprenting your line.  But is this a good representation of the data?  Fortunately, statisticians have a tried and tue way of creating a line of 'Best fit' for this sort of data."
+
+const prompt1 = "Click 'Show me' to see how your line compares to this myseterious 'Best fit' line"
+
+
+  //USER NAVIGATION EVENTS
 
 //SUBMIT
 submitBtn.addEventListener("click", (event) => {
+  
   userLineControls.classList.remove("removed");
   submitBtn.classList.add("removed");
-  showBtn.classList.remove("removed");
+  
   dialogue.innerHTML = 
     "Nice job! Below you will see an equation reprenting your line.  But is this a good representation of the data?  Fortunately, statisticians have a tried and tue way of creating a line of 'Best fit' for this sort of data.";
   
   prompt.innerHTML = 
     "Click 'Show me' to see how your line compares to this myseterious 'Best fit' line";
+
+  setTimeout( () => showBtn.classList.remove("removed"), 3000);
 });
 
 //SHOW
@@ -135,7 +146,7 @@ showBtn.addEventListener("click",function(){
   renderBestFitLine();
   bestFitLineControls.classList.remove("removed");
   showBtn.classList.add("removed");
-  nextBtn.classList.remove("removed");
+  
 
 
   dialogue.innerHTML = 
@@ -144,6 +155,7 @@ showBtn.addEventListener("click",function(){
   prompt.innerHTML = 
     "Click 'Next' to investigate this best fit line and learn about why it also goes by another name &#x1F632;";
 
+  setTimeout( () => nextBtn.classList.remove("removed"), 3000);
 });
 
 //NEXT
@@ -234,6 +246,9 @@ startOverBtn.addEventListener("click", (event) => {
       })
     .on("end", function (d) {
       let coordsDrag = d3.pointer(event, svg.node());  //update the line and dot positions with mouse move
+      // activate the submit button
+      submitBtn.disabled = false;
+      
       
     });
     // add line draw behavior to plot

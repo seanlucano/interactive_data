@@ -178,6 +178,13 @@ button:hover {
   cursor: pointer;
 }
 
+button:disabled {
+  background: lightgray;
+  border: lightgray;
+  transition: none;
+  cursor: not-allowed;
+}
+
 footer {
   display: flex;
   justify-content: center;
